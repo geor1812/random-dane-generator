@@ -1,5 +1,7 @@
 export interface IPerson {
-  baseInfo?: IBaseInfo;
+  name: string;
+  surname: string;
+  gender: Gender;
   cpr?: string;
   birthday?: string;
   address?: IAddress;
@@ -11,10 +13,10 @@ export interface IAddress {
   number: string;
   floor: string;
   door: Door;
-  postalCode: PostalCode;
+  postalCode: IPostalCode;
 }
 
-export interface PostalCode {
+export interface IPostalCode {
   code: string;
   town: string;
 }
