@@ -12,7 +12,7 @@ export interface IAddress {
   street: string;
   number: string;
   floor: string;
-  door: Door;
+  door: string;
   postalCode: IPostalCode;
 }
 
@@ -27,5 +27,3 @@ export interface IBaseInfo {
 }
 
 export type Gender = 'male' | 'female';
-
-export type Door = 'th' | 'tv' | 'mf';
