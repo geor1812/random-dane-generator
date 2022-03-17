@@ -4,6 +4,9 @@ import { IPerson, IAddress, Gender } from './person.interface';
 export class PersonController {
   constructor() {}
 
+  /**
+   * VERY IMPORTANT! Mock data probably doesn't reflect the data service will return
+   */
   @Get('cpr')
   getCpr(): { cpr: string } {
     return {
