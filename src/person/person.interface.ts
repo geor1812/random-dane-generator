@@ -11,10 +11,13 @@ export interface IAddress {
   number: string;
   floor: string;
   door: Door;
-  postalCode: string;
-  townName: string;
+  postalCode: PostalCode;
 }
 
+export interface PostalCode {
+  code: string;
+  town: string;
+}
 export interface IBaseInfo {
   name: string;
   surname: string;
