@@ -13,7 +13,7 @@ import * as config from "../ormconfig";
       type: 'mysql',
       host: config.default.host,
       port: config.default.port,
-      username: config.default.username,
+      username: config.default.user,
       password: config.default.password,
       database: config.default.schema,
       entities: [PostalCode],
