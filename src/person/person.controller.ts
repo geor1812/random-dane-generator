@@ -1,6 +1,7 @@
 import { Controller, Get, Query } from '@nestjs/common';
-import { IPerson, IAddress, Gender } from './person.interface';
+import { Gender, IAddress, IPerson } from './person.interface';
 import { PersonService } from './person.service';
+
 @Controller()
 export class PersonController {
   constructor(private personService: PersonService) {}
@@ -72,16 +73,7 @@ export class PersonController {
     address: IAddress;
   } {
     return {
-      address: {
-        street: this.personService.generateStreetName(),
-        number: '10B',
-        floor: 'st',
-        door: 'tv',
-        postalCode: {
-          code: '2300',
-          town: 'København S',
-        },
-      },
+      address: this.personService.generateAddress(),
     };
   }
 
@@ -103,16 +95,7 @@ export class PersonController {
         gender: 'female',
         cpr: '051299-8080',
         birthday: '05-12-1999',
-        address: {
-          street: this.personService.generateStreetName(),
-          number: '2',
-          floor: '5',
-          door: 'th',
-          postalCode: {
-            code: '2300',
-            town: 'København S',
-          },
-        },
+        address: this.personService.generateAddress(),
         phone: '+4577339988',
       },
       {
@@ -121,16 +104,7 @@ export class PersonController {
         gender: 'male',
         cpr: '111191-8181',
         birthday: '11-11-1991',
-        address: {
-          street: this.personService.generateStreetName(),
-          number: '3',
-          floor: '2',
-          door: 'mf',
-          postalCode: {
-            code: '2300',
-            town: 'København S',
-          },
-        },
+        address: this.personService.generateAddress(),
         phone: '+4531339099',
       },
     ] as IPerson[];
