@@ -1,8 +1,9 @@
 import { Controller, Get, Query } from '@nestjs/common';
 import { IPerson, IAddress, Gender } from './person.interface';
+import { PersonService } from './person.service';
 @Controller()
 export class PersonController {
-  constructor() {}
+  constructor(private personService: PersonService) {}
 
   /**
    * VERY IMPORTANT! Mock data probably doesn't reflect the data service will return
@@ -72,7 +73,7 @@ export class PersonController {
   } {
     return {
       address: {
-        street: 'Kildevej',
+        street: this.personService.generateStreetName(),
         number: '10B',
         floor: 'st',
         door: 'tv',
@@ -103,7 +104,7 @@ export class PersonController {
         cpr: '051299-8080',
         birthday: '05-12-1999',
         address: {
-          street: 'Streetvej',
+          street: this.personService.generateStreetName(),
           number: '2',
           floor: '5',
           door: 'th',
@@ -121,7 +122,7 @@ export class PersonController {
         cpr: '111191-8181',
         birthday: '11-11-1991',
         address: {
-          street: 'Whatevs',
+          street: this.personService.generateStreetName(),
           number: '3',
           floor: '2',
           door: 'mf',
