@@ -1,11 +1,11 @@
 import { Body, Controller, Get, HttpStatus, Param, Post, Res } from "@nestjs/common";
 import { PostalCodeService } from "./postal-code.service";
 
-@Controller('postalCodes')
+@Controller('postalCode')
 export class PostalCodeController {
     constructor(private readonly postalCodeService: PostalCodeService){}
 
-    @Get()
+    @Get('/all')
     async fetchAll(@Res() response) {
         const postalCodes = await this.postalCodeService.findAll();
         return response.status(HttpStatus.OK).json({
@@ -18,6 +18,14 @@ export class PostalCodeController {
         const postalCode = await this.postalCodeService.findOne(code);
         return response.status(HttpStatus.OK).json({
             postalCode
+        })
+    }
+
+    @Get('/random')
+    async findRandomly(@Res() response) {
+        const randomPostalCode = await this.postalCodeService.findRandom();
+        return response.status(HttpStatus.OK).json({
+            randomPostalCode
         })
     }
 

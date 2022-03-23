@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export default {
     host: process.env.RDG_HOST,
     port: Number(process.env.RDG_PORT),
