@@ -5,6 +5,7 @@ import { PostalCode } from "./postal-code.entity";
 
 @Injectable()
 export class PostalCodeService {
+
     constructor(
         @InjectRepository(PostalCode)
         private postalCodeRepository: Repository<PostalCode>
@@ -16,10 +17,5 @@ export class PostalCodeService {
 
     findOne(code: string): Promise<PostalCode> {
         return this.postalCodeRepository.findOne(code);
-    }
-
-    //STILL IN PROGRESS...
-    findRandom(): Promise<PostalCode> {
-        return null;
     }
 }

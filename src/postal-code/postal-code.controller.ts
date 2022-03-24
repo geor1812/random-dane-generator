@@ -1,9 +1,22 @@
-import { Body, Controller, Get, HttpStatus, Param, Post, Res } from "@nestjs/common";
+import { Controller, Get, HttpStatus, Param, Res } from "@nestjs/common";
 import { PostalCodeService } from "./postal-code.service";
 
 @Controller('postalCode')
 export class PostalCodeController {
+
     constructor(private readonly postalCodeService: PostalCodeService){}
+
+    @Get()
+    async findRandomly(@Res() response) {
+        const allCodes = await this.postalCodeService.findAll();
+        const min = 0;
+        const max = 588;
+        const x = Math.floor(Math.random() * (max - min + 1)) + min;
+        const randomPostalCode = allCodes[x];
+        return response.status(HttpStatus.OK).json({
+            randomPostalCode
+        })
+    }
 
     @Get('/all')
     async fetchAll(@Res() response) {
@@ -19,14 +32,5 @@ export class PostalCodeController {
         return response.status(HttpStatus.OK).json({
             postalCode
         })
-    }
-
-    @Get('/random')
-    async findRandomly(@Res() response) {
-        const randomPostalCode = await this.postalCodeService.findRandom();
-        return response.status(HttpStatus.OK).json({
-            randomPostalCode
-        })
-    }
-
+    } 
 }
