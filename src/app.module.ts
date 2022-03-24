@@ -6,6 +6,8 @@ import { AppService } from './app.service';
 import { PostalCode } from './postal-code/postal-code.entity';
 import { PostalCodeModule } from "./postal-code/postal-code.module";
 import * as config from "../ormconfig";
+import { PersonService } from './person/person.service';
+
 
 @Module({
   imports: [
@@ -22,6 +24,6 @@ import * as config from "../ormconfig";
     }), PostalCodeModule
   ],
   controllers: [AppController, PersonController],
-  providers: [AppService],
+  providers: [AppService, PersonService],
 })
 export class AppModule {}

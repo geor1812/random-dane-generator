@@ -1,5 +1,7 @@
 export interface IPerson {
-  baseInfo?: IBaseInfo;
+  name: string;
+  surname: string;
+  gender: Gender;
   cpr?: string;
   birthday?: string;
   address?: IAddress;
@@ -10,11 +12,11 @@ export interface IAddress {
   street: string;
   number: string;
   floor: string;
-  door: Door;
-  postalCode: PostalCode;
+  door: string;
+  postalCode: IPostalCode;
 }
 
-export interface PostalCode {
+export interface IPostalCode {
   code: string;
   town: string;
 }
@@ -25,5 +27,3 @@ export interface IBaseInfo {
 }
 
 export type Gender = 'male' | 'female';
-
-export type Door = 'th' | 'tv' | 'mf';
