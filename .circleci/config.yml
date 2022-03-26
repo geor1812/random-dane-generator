@@ -8,6 +8,7 @@ orbs:
 
 jobs:
   node/build:
+    docker: circleci/node
     steps:
       - run:
           name: Install npm dependencies
