@@ -6,10 +6,17 @@ version: 2.1
 orbs:
   node: circleci/node@4.7
 
-# Invoke jobs via workflows
-# See: https://circleci.com/docs/2.0/configuration-reference/#workflows
+jobs:
+  node/build:
+    steps:
+      - run:
+          name: Install npm dependencies
+          command: npm install
+      - run:
+          name: Build project
+          command: npm run build
 workflows:
-  sample: # This is the name of the workflow, feel free to change it to better match your workflow.
+  ciWorkflow: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - node/build:
