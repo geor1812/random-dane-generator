@@ -7,7 +7,7 @@ orbs:
   node: circleci/node@4.7
 
 jobs:
-  node/build:
+  build:
     docker: circleci/node
     steps:
       - run:
@@ -20,4 +20,4 @@ workflows:
   ciWorkflow: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - node/build:
+      - build
