@@ -32,6 +32,8 @@ jobs:
       - image: cimg/node:16.14.2
     steps:
       - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
           name: Run ESLint
           command: npm run lint
