@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { streetNameEnding } from './constants/street-name.constant';
 import { IAddress } from './person.interface';
+import { PostalCode } from './postal-code.entity';
 
 @Injectable()
 export class PersonService {
@@ -8,20 +11,44 @@ export class PersonService {
   private streetNameMinLength = 8;
   private streetAddressMaxNumber = 999;
 
+  constructor(
+    @InjectRepository(PostalCode)
+    private postalCodeRepository: Repository<PostalCode>,
+  ) {}
+
+  findAll(): Promise<PostalCode[]> {
+    return this.postalCodeRepository.find();
+  }
+
+  findOne(code: string): Promise<PostalCode> {
+    return this.postalCodeRepository.findOne(code);
+  }
+
+  async findRandom(): Promise<PostalCode> {
+    const randCodesArr = await this.postalCodeRepository
+      .createQueryBuilder()
+      .select('*')
+      .from(PostalCode, 'postal_code')
+      .orderBy('RAND()')
+      .limit(1)
+      .execute();
+    return {
+      code: randCodesArr[0].cPostalCode,
+      town: randCodesArr[0].cTownName,
+    };
+  }
+
   /**
    * Generate an Address object.
    * @returns generated address.
    */
-  generateAddress(): IAddress {
+  async generateAddress(): Promise<IAddress> {
     return {
       street: this.generateStreetName(),
       number: this.generateAddressNumber(),
       floor: this.generateFloorNumber(),
       door: this.generateDoorNumber(),
-      postalCode: {
-        code: '2300',
-        town: 'København S',
-      },
+      postalCode: await this.findRandom(),
     };
   }
 
