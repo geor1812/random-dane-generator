@@ -15,14 +15,14 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Install npm dependencies
-          command: npm install
-      - run:
           name: Build project
           command: npm run build
       - run:
           name: Run tests
           command: npm run test
+      - run:
+          name: Run e2e tests
+          command: npm run test:e2e
 workflows:
   ciWorkflow: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
