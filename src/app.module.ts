@@ -4,10 +4,9 @@ import { AppController } from './app.controller';
 import { PersonController } from './person/person.controller';
 import { AppService } from './app.service';
 import { PostalCode } from './postal-code/postal-code.entity';
-import { PostalCodeModule } from "./postal-code/postal-code.module";
-import * as config from "../ormconfig";
+import { PostalCodeModule } from './postal-code/postal-code.module';
+import * as config from '../ormconfig';
 import { PersonService } from './person/person.service';
-
 
 @Module({
   imports: [
@@ -20,8 +19,10 @@ import { PersonService } from './person/person.service';
       database: config.default.schema,
       entities: [PostalCode],
       synchronize: true,
-      dropSchema: false
-    }), PostalCodeModule
+      dropSchema: false,
+      keepConnectionAlive: true,
+    }),
+    PostalCodeModule,
   ],
   controllers: [AppController, PersonController],
   providers: [AppService, PersonService],
