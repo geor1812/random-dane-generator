@@ -1,6 +1,5 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { randomBytes } from "crypto";
 import { Repository } from "typeorm";
 import { PostalCode } from "./postal-code.entity";
 
@@ -10,7 +9,7 @@ export class PostalCodeService {
     constructor(
         @InjectRepository(PostalCode)
         private postalCodeRepository: Repository<PostalCode>
-    ){}
+    ) { }
 
     findAll(): Promise<PostalCode[]> {
         return this.postalCodeRepository.find();
@@ -28,7 +27,7 @@ export class PostalCodeService {
             .orderBy("RAND()")
             .limit(1)
             .execute();
-        return { 
+        return {
             code: randCodesArr[0].cPostalCode,
             town: randCodesArr[0].cTownName
         };
