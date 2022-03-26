@@ -8,11 +8,7 @@ export class PostalCodeController {
 
     @Get()
     async findRandomly(@Res() response) {
-        const allCodes = await this.postalCodeService.findAll();
-        const min = 0;
-        const max = 588;
-        const x = Math.floor(Math.random() * (max - min + 1)) + min;
-        const randomPostalCode = allCodes[x];
+        const randomPostalCode = await this.postalCodeService.findRandom();
         return response.status(HttpStatus.OK).json({
             randomPostalCode
         })
