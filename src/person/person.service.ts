@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { streetNameEnding } from './constants/street-name.constant';
+import { phoneNumberPrefix } from './constants/phone-number.constant';
 import { IAddress } from './person.interface';
+import { IPerson, Gender } from './person.interface';
+
 
 @Injectable()
 export class PersonService {
@@ -8,10 +11,76 @@ export class PersonService {
   private streetNameMinLength = 8;
   private streetAddressMaxNumber = 999;
 
+  //function generate person
+  generateIPerson( IAddress ): IPerson {
+    return {
+      name: 'Moby',
+      surname: 'Dick',
+      gender: 'male',
+      cpr: '13113452',
+      phone: '32642665',
+      birthday: '121254',
+      address: IAddress,
+    }
+  }
+
+  //generate Cpr where: days:00-28, months: 01-12 & years: 00-99
+  generateCpr(gender: Gender = 'female'): string {
+    let Cpr_1 = ''
+    let temp_1 = (Math.floor(Math.random() * 28) + 1);
+    const zero = '0';
+    if (temp_1 < 10) {
+      Cpr_1 = temp_1.toString()
+      Cpr_1 = zero.concat(Cpr_1)
+    }
+    let Cpr_2 = ''
+    let temp_2 = (Math.floor(Math.random() * (12 - 1) + 1));
+    if (temp_2 < 10) {
+      Cpr_2 = temp_2.toString()
+      Cpr_2 = zero.concat(Cpr_2)
+    }
+    let Cpr_3 = ''
+    let temp_3 = (Math.floor(Math.random() * 99) + 1);
+    if (temp_3 < 10) {
+      Cpr_3 = temp_3.toString()
+      Cpr_3 = zero.concat(Cpr_3)
+    }
+    //last 4 digits: odd for male, even for female
+    if (gender === 'male') {
+      Cpr_3 += (Math.floor(Math.random() * 9999) * 2) + 1;
+    } else {
+      return Cpr_3 += Math.floor(Math.random() * 9999) * 2;
+    }
+  }
+
+  //generate birthday by removing the last 4 digits a cpr call
+  generateBirthday(): string {
+    let Cpr = this.generateCpr();
+    let birthday = Cpr.substring(0, 6)
+    return birthday;
+  }
+
+  //generate phone number based on prefixes of various length
+  generatePhone(): string {
+    const prefix =
+      phoneNumberPrefix[Math.floor(Math.random() * phoneNumberPrefix.length)];
+    let ending = ''
+    if (prefix.length == 1) {
+      ending = (Math.floor(Math.random() * 9999999) + 1).toString();
+    } else if (prefix.length == 2) {
+      ending = (Math.floor(Math.random() * 999999) + 1).toString();
+    } else {
+      ending = (Math.floor(Math.random() * 99999) + 1).toString();
+      let phoneNumber = prefix.concat(ending.toString());
+      return phoneNumber;
+    }
+  }
+
   /**
    * Generate an Address object.
    * @returns generated address.
    */
+
   generateAddress(): IAddress {
     return {
       street: this.generateStreetName(),
@@ -34,7 +103,7 @@ export class PersonService {
     const streetNameLength =
       Math.floor(
         Math.random() *
-          (this.streetNameMaxLength - this.streetNameMinLength + 1),
+        (this.streetNameMaxLength - this.streetNameMinLength + 1),
       ) + this.streetNameMinLength;
 
     const ending =
