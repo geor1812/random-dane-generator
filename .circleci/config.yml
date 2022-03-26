@@ -7,7 +7,7 @@ orbs:
   node: circleci/node@4.7
 
 jobs:
-  build_and_test:
+  build:
     docker:
       - image: cimg/node:16.14.2
     steps:
@@ -17,14 +17,32 @@ jobs:
       - run:
           name: Build project
           command: npm run build
+  test:
+    docker:
+      - image: cimg/node:16.14.2
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
           name: Run tests
           command: npm run test
+  eslint:
+    docker:
+      - image: cimg/node:16.14.2
+    steps:
+      - checkout
       - run:
-          name: Run eslint
-          command: npm run lint
+          name: Run ESLint
+
 workflows:
-  ciWorkflow: # This is the name of the workflow, feel free to change it to better match your workflow.
+  Build: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
-      - build_and_test
+      - build
+  Test:
+    jobs:
+      - test
+  ESLint:
+    jobs:
+      - eslint
