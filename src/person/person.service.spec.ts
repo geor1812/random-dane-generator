@@ -4,7 +4,6 @@ import * as config from '../../ormconfig';
 import { PersonService } from './person.service';
 import { PostalCode } from './postal-code.entity';
 
-
 let service: PersonService;
 
 beforeAll(async () => {
@@ -30,14 +29,12 @@ beforeAll(async () => {
   service = module.get<PersonService>(PersonService);
 });
 
-
 //TEST SUITE FOR SIMPLE PERSON SERVICE UNIT TESTS
 describe('Person service unit tests', () => {
-
   //RANDOM PHONE NUMBER
   it('should return a random phone number that is a 8-char string', async () => {
     const randomPhoneNum = service.generatePhone();
-    expect(randomPhoneNum).toBe(8);
+    expect(randomPhoneNum).toHaveLength(8);
   });
 
   it('should return a random phone number that is not null', () => {
@@ -53,7 +50,7 @@ describe('Person service unit tests', () => {
   //RANDOM CPR NUMBER
   it('should return a random CPR number that is a 10-char string', async () => {
     const randomCPRNum = service.generateCpr();
-    expect(randomCPRNum).toBe(10);
+    expect(randomCPRNum).toHaveLength(10);
   });
 
   it('should return a random CPR number that is not null', () => {
@@ -142,7 +139,7 @@ describe('Person service unit tests', () => {
 
   it('should generate a random floor number of type string', () => {
     const randomFloor = service.generateFloorNumber();
-    expect(typeof (randomFloor)).toEqual('string');
+    expect(typeof randomFloor).toEqual('string');
   });
 
   //RANDOM DOOR NUMBER GENERATION TESTS
@@ -153,16 +150,14 @@ describe('Person service unit tests', () => {
 
   it('should generate a random door number of type string', () => {
     const randomDoorNum = service.generateDoorNumber();
-    expect(typeof (randomDoorNum)).toEqual('string');
+    expect(typeof randomDoorNum).toEqual('string');
   });
-
 });
 
 // *-----------------------------------------------------------------------------------------------------------------* //
 //TEST SUITE FOR PERSON SERVICE INTEGRATION TESTS FOR POSTAL CODE
 //ESTABLISHING A DATABASE CONNECTION
 describe('Person service integration tests for postal code', () => {
-
   //RANDOM POSTAL CODE TESTS - DATABASE CONNECTION, INTEGRATION TESTS
   it('should call findRandom method which returns a random post code which is not null', async () => {
     const findData = await service.findRandom();
@@ -177,8 +172,8 @@ describe('Person service integration tests for postal code', () => {
 
   it('should call findRandom method and check typeof properties', async () => {
     const findData = await service.findRandom();
-    expect(typeof (findData.code)).toEqual('string');
-    expect(typeof (findData.town)).toEqual('string');
+    expect(typeof findData.code).toEqual('string');
+    expect(typeof findData.town).toEqual('string');
   });
 
   it('should call findRandom method and check if code is a 4-char string', async () => {
@@ -193,5 +188,4 @@ describe('Person service integration tests for postal code', () => {
     expect(codeNum).toBeGreaterThanOrEqual(1000);
     expect(codeNum).toBeLessThanOrEqual(9999);
   });
-
 });
