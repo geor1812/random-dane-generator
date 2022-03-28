@@ -51,26 +51,26 @@ describe('Person service', () => {
   it('should call findRandom method which returns a random post code which is not null', async () => {
     const findData = await service.findRandom();
     expect(findData).toBeDefined();
-  }, 30000);
+  });
 
   it('should call findRandom method which returns a random post code with according properties', async () => {
     const findData = await service.findRandom();
     expect(findData).toHaveProperty('code');
     expect(findData).toHaveProperty('town');
-  }, 30000);
+  });
 
   it('should call findRandom method and check typeof properties', async () => {
     const findData = await service.findRandom();
     expect(typeof (findData.code)).toEqual('string');
     expect(typeof (findData.town)).toEqual('string');
-  }, 30000);
+  });
 
   it('should call findRandom method and check if code is a 4-digit number', async () => {
     const findData = await service.findRandom();
     const codeNum = parseInt(findData.code);
     expect(codeNum).toBeGreaterThanOrEqual(1000);
     expect(codeNum).toBeLessThanOrEqual(9999);
-  }, 30000);
+  });
 
   //RANDOM ADDRESS NUMBERS TESTS
   it('should generate a random address number which is not null', () => {
