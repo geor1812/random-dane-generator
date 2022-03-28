@@ -69,11 +69,11 @@ export class PersonController {
   }
 
   @Get('address')
-  getAddress(): {
+  async getAddress(): Promise<{
     address: IAddress;
-  } {
+  }> {
     return {
-      address: this.personService.generateAddress(),
+      address: await this.personService.generateAddress(),
     };
   }
 
@@ -87,7 +87,9 @@ export class PersonController {
   }
 
   @Get('person')
-  getPeople(@Query('amount') amount: number): IPerson | IPerson[] {
+  async getPeople(
+    @Query('amount') amount: number,
+  ): Promise<IPerson | IPerson[]> {
     const people = [
       {
         name: 'Christina',
@@ -95,7 +97,7 @@ export class PersonController {
         gender: 'female',
         cpr: '051299-8080',
         birthday: '05-12-1999',
-        address: this.personService.generateAddress(),
+        address: await this.personService.generateAddress(),
         phone: '+4577339988',
       },
       {
@@ -104,7 +106,7 @@ export class PersonController {
         gender: 'male',
         cpr: '111191-8181',
         birthday: '11-11-1991',
-        address: this.personService.generateAddress(),
+        address: await this.personService.generateAddress(),
         phone: '+4531339099',
       },
     ] as IPerson[];
