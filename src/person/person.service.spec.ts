@@ -45,10 +45,24 @@ describe('Person service unit tests', () => {
     expect(typeof randomStreetName).toEqual('string');
   });
 
-  it('should call generate a random street name of length between 8 and 25 chars', () => {
+  it('should call generate a random street name of length higher than 7 chars', () => {
+    const randomStreetName = service.generateStreetName();
+    expect(randomStreetName.length).toBeGreaterThan(7);
+  });
+
+  it('should call generate a random street name of length higher or equal to 8 chars', () => {
     const randomStreetName = service.generateStreetName();
     expect(randomStreetName.length).toBeGreaterThanOrEqual(8);
+  });
+
+  it('should call generate a random street name of length less or equal to 25 chars', () => {
+    const randomStreetName = service.generateStreetName();
     expect(randomStreetName.length).toBeLessThanOrEqual(25);
+  });
+
+  it('should call generate a random street name of length not higher than 26 chars', () => {
+    const randomStreetName = service.generateStreetName();
+    expect(randomStreetName.length).toBeLessThan(26);
   });
 
   //RANDOM ADDRESS NUMBERS TESTS
@@ -62,11 +76,30 @@ describe('Person service unit tests', () => {
     expect(typeof randomAddressNum).toEqual('string');
   });
 
-  it('should generate a random address number which consists of a number between 1 and 999', () => {
+  //--  WE CANNOT HAVE NEGATION ASSERTS IN JEST, WHICH DOESN'T
+  //DOESN'T ALLOW US TO IMPLEMENT ALL TEST CASES AND MAKES IT REPETITIVE --
+  it('should generate a random address number which consists of a number not a zero and not a negative', () => {
     const randomAddressNum = service.generateAddressNumber();
-    const numPart = parseInt(randomAddressNum.replace(/[^0-9]/g, ''));
+    const numPart = parseInt(randomAddressNum.replace(/[^0-9-]/g, ''));
+    expect(numPart).toBeGreaterThan(0);
+  });
+
+  it('should generate a random address number which consists of a number equal to or higher than one', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    const numPart = parseInt(randomAddressNum.replace(/[^0-9-]/g, ''));
     expect(numPart).toBeGreaterThanOrEqual(1);
+  });
+
+  it('should generate a random address number which consists of a number equal to or lower than nine hundred ninety nine', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    const numPart = parseInt(randomAddressNum.replace(/[^0-9-]/g, ''));
     expect(numPart).toBeLessThanOrEqual(999);
+  });
+
+  it('should generate a random address number which consists of a number not higher than one thousand', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    const numPart = parseInt(randomAddressNum.replace(/[^0-9-]/g, ''));
+    expect(numPart).toBeLessThan(1000);
   });
 
   //RANDOM FLOOR NUMBER GENERATION TESTS
@@ -93,7 +126,7 @@ describe('Person service unit tests', () => {
 
 });
 
-
+// *-----------------------------------------------------------------------------------------------------------------* //
 //TEST SUITE FOR PERSON SERVICE INTEGRATION TESTS FOR POSTAL CODE
 //ESTABLISHING A DATABASE CONNECTION
 describe('Person service integration tests for postal code', () => {
@@ -114,6 +147,12 @@ describe('Person service integration tests for postal code', () => {
     const findData = await service.findRandom();
     expect(typeof (findData.code)).toEqual('string');
     expect(typeof (findData.town)).toEqual('string');
+  });
+
+  it('should call findRandom method and check if code is a 4-char string', async () => {
+    const findData = await service.findRandom();
+    const zipCode = findData.code;
+    expect(zipCode.length).toBe(4);
   });
 
   it('should call findRandom method and check if code is a 4-digit number', async () => {
