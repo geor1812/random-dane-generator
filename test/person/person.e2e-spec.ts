@@ -111,12 +111,12 @@ describe('AppController (e2e)', () => {
       });
   });
 
-  it('/person?amount=20 returns status 200 and a list of people', () => {
+  it('/person?amount=10 returns status 200 and a list of people with length of 10', () => {
     return request(app.getHttpServer())
-      .get(`/person?amount=20`)
+      .get(`/person?amount=10`)
       .expect(200)
       .expect((response) => {
-        expect(response.body).toHaveLength(20);
+        expect(response.body).toHaveLength(10);
       });
   });
 });
