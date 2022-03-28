@@ -2,10 +2,10 @@ export interface IPerson {
   name: string;
   surname: string;
   gender: Gender;
-  cpr?: string;
-  birthday?: string;
-  address?: IAddress;
-  phone?: string;
+  cpr: string;
+  birthday: string;
+  address: IAddress;
+  phone: string;
 }
 
 export interface IAddress {
