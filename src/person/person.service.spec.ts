@@ -65,7 +65,6 @@ describe('Person service unit tests', () => {
     expect(randomStreetName.length).toBeLessThan(26);
   });
 
-
   //RANDOM ADDRESS NUMBERS TESTS
   it('should generate a random address number which is not null', () => {
     const randomAddressNum = service.generateAddressNumber();
@@ -78,7 +77,7 @@ describe('Person service unit tests', () => {
   });
 
   //--  WE CANNOT HAVE NEGATION ASSERTS IN JEST, WHICH DOESN'T
-  //DOESN'T ALLOW US TO IMPLEMENT ALL TEST CASES AND MAKES IT REPETITIVE
+  //DOESN'T ALLOW US TO IMPLEMENT ALL TEST CASES AND MAKES IT REPETITIVE --
   it('should generate a random address number which consists of a number not a zero and not a negative', () => {
     const randomAddressNum = service.generateAddressNumber();
     const numPart = parseInt(randomAddressNum.replace(/[^0-9-]/g, ''));
@@ -127,7 +126,7 @@ describe('Person service unit tests', () => {
 
 });
 
-
+// *-----------------------------------------------------------------------------------------------------------------* //
 //TEST SUITE FOR PERSON SERVICE INTEGRATION TESTS FOR POSTAL CODE
 //ESTABLISHING A DATABASE CONNECTION
 describe('Person service integration tests for postal code', () => {
