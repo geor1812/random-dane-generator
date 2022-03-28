@@ -54,43 +54,52 @@ export class PersonService {
   //generate Cpr where: days:00-28, months: 01-12 & years: 00-99
   generateCpr(gender: Gender = 'female'): string {
     let Cpr_1 = '';
-    let temp_1 = Math.floor(Math.random() * 28) + 1;
+    let temp_1 = Math.floor(Math.random() * (28 - 1) + 1);
     const zero = '0';
     if (temp_1 < 10) {
-      Cpr_1 = temp_1.toString();
-      Cpr_1 = zero.concat(Cpr_1);
+      Cpr_1 = temp_1.toString();  
+      Cpr_1 = zero.concat(Cpr_1);  
     } else {
       Cpr_1 = temp_1.toString();
     }
+
     let Cpr_2 = ''
     let temp_2 = (Math.floor(Math.random() * (12 - 1) + 1));
     if (temp_2 < 10) {
       Cpr_2 = temp_2.toString();
-      Cpr_2 = zero.concat(Cpr_2);
+      Cpr_2 = zero.concat(Cpr_2);  
     } else {
       Cpr_2 = temp_2.toString();
     }
+    Cpr_2 = Cpr_1 + Cpr_2;
+
     let Cpr_3 = ''
-    let temp_3 = (Math.floor(Math.random() * 99) + 1);
+    let temp_3 = Math.floor(Math.random() * 99) ;
     if (temp_3 < 10) {
       Cpr_3 = temp_3.toString();
       Cpr_3 = zero.concat(Cpr_3);
     } else {
       Cpr_3 = temp_3.toString();
     }
-    console.log(Cpr_3);
+    Cpr_3 = Cpr_2 + Cpr_3;
+
     //last 4 digits: odd for male, even for female
-    if (gender === 'male') {
-      return Cpr_3 += (Math.floor(Math.random() * 9999) * 2) + 1;
+    let Cpr_4 = '';
+    let temp_4 = Math.floor(Math.random() * (4999 - 1000) + 1000)
+    if (gender == 'female') {
+      Cpr_4 = ((temp_4)*2).toString();
     } else {
-      return Cpr_3 += Math.floor(Math.random() * 9999) * 2;
+      Cpr_4 = ((temp_4)*2 + 1).toString();
     }
+    Cpr_4 = Cpr_3.concat(Cpr_4)
+    return Cpr_4
   }
 
   //generate birthday by removing the last 4 digits a cpr call
   generateBirthday(cpr: string = null): string {
     const Cpr = cpr ? cpr : this.generateCpr();
     let birthday = Cpr.substring(0, 6);
+    console.log('birthday', birthday)
     return birthday;
   }
 
@@ -99,15 +108,19 @@ export class PersonService {
     const prefix =
       phoneNumberPrefix[Math.floor(Math.random() * phoneNumberPrefix.length)];
     let ending = ''
+    let temp_1 = Math.floor(Math.random() * (9999999 - 1000000) + 1000000)
+    let temp_2 = Math.floor(Math.random() * (999999 - 100000) + 100000)
+    let temp_3 = Math.floor(Math.random() * (99999 - 10000) + 10000)
     if (prefix.length == 1) {
-      ending = (Math.floor(Math.random() * 9999999) + 1).toString();
+      ending = temp_1.toString();
     } else if (prefix.length == 2) {
-      ending = (Math.floor(Math.random() * 999999) + 1).toString();
+      ending = temp_2.toString();
     } else {
-      ending = (Math.floor(Math.random() * 99999) + 1).toString();
-      let phoneNumber = prefix.concat(ending.toString());
-      return phoneNumber;
+      ending = temp_3.toString();
     }
+    let phoneNumber = prefix.concat(ending);
+    console.log('phone number', phoneNumber)
+    return phoneNumber;
   }
 
   findAll(): Promise<PostalCode[]> {
