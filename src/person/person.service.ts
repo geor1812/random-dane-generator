@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { InsertValuesMissingError, Repository } from 'typeorm';
 import { streetNameEnding } from './constants/street-name.constant';
 import { phoneNumberPrefix } from './constants/phone-number.constant';
 import { IAddress } from './person.interface';
 import { IPerson, Gender } from './person.interface';
 import { PostalCode } from './postal-code.entity';
+import * as data from '../assets/person-name.json';
 
 @Injectable()
 export class PersonService {
@@ -28,6 +29,20 @@ export class PersonService {
       phone: '32642665',
       birthday: '121254',
       address: IAddress,
+    };
+  }
+
+  getPersonBaseInfo(): {
+    name: string;
+    surname: string;
+    gender: Gender;
+  } {
+    const randomPerson =
+      data.persons[Math.floor(Math.random() * data.persons.length)];
+    return {
+      name: randomPerson.name,
+      surname: randomPerson.surname,
+      gender: randomPerson.gender as Gender,
     };
   }
 
@@ -61,8 +76,8 @@ export class PersonService {
   }
 
   //generate birthday by removing the last 4 digits a cpr call
-  generateBirthday(): string {
-    let Cpr = this.generateCpr();
+  generateBirthday(cpr: string = null): string {
+    const Cpr = cpr ? cpr : this.generateCpr();
     let birthday = Cpr.substring(0, 6);
     return birthday;
   }

@@ -20,10 +20,5 @@ export interface IPostalCode {
   code: string;
   town: string;
 }
-export interface IBaseInfo {
-  name: string;
-  surname: string;
-  gender: Gender;
-}
 
 export type Gender = 'male' | 'female';

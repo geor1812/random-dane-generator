@@ -6,19 +6,16 @@ import { PersonService } from './person.service';
 export class PersonController {
   constructor(private personService: PersonService) {}
 
-  /**
-   * VERY IMPORTANT! Mock data probably doesn't reflect the data service will return
-   */
   @Get('cpr')
   getCpr(): { cpr: string } {
     return {
-      cpr: '170596-2616',
+      cpr: this.personService.generateCpr(),
     };
   }
 
   @Get('name-gender')
   getNameGender(): { name: string; surname: string; gender: Gender } {
-    return { name: 'Testy', surname: 'McTest', gender: 'male' };
+    return this.personService.getPersonBaseInfo();
   }
 
   @Get('name-gender-birthday')
@@ -28,11 +25,14 @@ export class PersonController {
     gender: Gender;
     birthday: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const birthday = this.personService.generateBirthday();
+
     return {
-      name: 'Testina',
-      surname: 'McTest',
-      gender: 'female',
-      birthday: '17-03-95',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      birthday,
     };
   }
 
@@ -43,11 +43,14 @@ export class PersonController {
     gender: Gender;
     cpr: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const cpr = this.personService.generateCpr(baseInfo.gender);
+
     return {
-      name: 'Some',
-      surname: 'Guy',
-      gender: 'male',
-      cpr: '170596-2616',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      cpr,
     };
   }
 
@@ -59,12 +62,15 @@ export class PersonController {
     cpr: string;
     birthday: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const cpr = this.personService.generateCpr(baseInfo.gender);
+    const birthday = this.personService.generateBirthday(cpr);
     return {
-      name: 'Some',
-      surname: 'Girl',
-      gender: 'female',
-      cpr: '220500-2617',
-      birthday: '22-05-2000',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      cpr,
+      birthday,
     };
   }
 
@@ -82,7 +88,7 @@ export class PersonController {
     phone: string;
   } {
     return {
-      phone: '+4571559090',
+      phone: this.personService.generatePhone(),
     };
   }
 
