@@ -6,19 +6,16 @@ import { PersonService } from './person.service';
 export class PersonController {
   constructor(private personService: PersonService) {}
 
-  /**
-   * VERY IMPORTANT! Mock data probably doesn't reflect the data service will return
-   */
   @Get('cpr')
   getCpr(): { cpr: string } {
     return {
-      cpr: '170596-2616',
+      cpr: this.personService.generateCpr(),
     };
   }
 
   @Get('name-gender')
   getNameGender(): { name: string; surname: string; gender: Gender } {
-    return { name: 'Testy', surname: 'McTest', gender: 'male' };
+    return this.personService.getPersonBaseInfo();
   }
 
   @Get('name-gender-birthday')
@@ -28,11 +25,14 @@ export class PersonController {
     gender: Gender;
     birthday: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const birthday = this.personService.generateBirthday();
+
     return {
-      name: 'Testina',
-      surname: 'McTest',
-      gender: 'female',
-      birthday: '17-03-95',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      birthday,
     };
   }
 
@@ -43,11 +43,14 @@ export class PersonController {
     gender: Gender;
     cpr: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const cpr = this.personService.generateCpr(baseInfo.gender);
+
     return {
-      name: 'Some',
-      surname: 'Guy',
-      gender: 'male',
-      cpr: '170596-2616',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      cpr,
     };
   }
 
@@ -59,21 +62,24 @@ export class PersonController {
     cpr: string;
     birthday: string;
   } {
+    const baseInfo = this.personService.getPersonBaseInfo();
+    const cpr = this.personService.generateCpr(baseInfo.gender);
+    const birthday = this.personService.generateBirthday(cpr);
     return {
-      name: 'Some',
-      surname: 'Girl',
-      gender: 'female',
-      cpr: '220500-2617',
-      birthday: '22-05-2000',
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      cpr,
+      birthday,
     };
   }
 
   @Get('address')
-  getAddress(): {
+  async getAddress(): Promise<{
     address: IAddress;
-  } {
+  }> {
     return {
-      address: this.personService.generateAddress(),
+      address: await this.personService.generateAddress(),
     };
   }
 
@@ -82,33 +88,26 @@ export class PersonController {
     phone: string;
   } {
     return {
-      phone: '+4571559090',
+      phone: this.personService.generatePhone(),
     };
   }
 
   @Get('person')
-  getPeople(@Query('amount') amount: number): IPerson | IPerson[] {
-    const people = [
-      {
-        name: 'Christina',
-        surname: 'McChrist',
-        gender: 'female',
-        cpr: '051299-8080',
-        birthday: '05-12-1999',
-        address: this.personService.generateAddress(),
-        phone: '+4577339988',
-      },
-      {
-        name: 'John',
-        surname: 'Bobz',
-        gender: 'male',
-        cpr: '111191-8181',
-        birthday: '11-11-1991',
-        address: this.personService.generateAddress(),
-        phone: '+4531339099',
-      },
-    ] as IPerson[];
-
-    return amount > 1 ? people : people[0];
+  async getPeople(
+    @Query('amount') amount: number,
+  ): Promise<IPerson | IPerson[]> {
+    let result;
+    if (!amount) {
+      result = await this.personService.generatePerson();
+    } else if (amount >= 1 && amount <= 200) {
+      result = [];
+      for (let i = 0; i < amount; i++) {
+        const person = await this.personService.generatePerson();
+        result.push(person);
+      }
+    } else {
+      result = { message: 'Invalid amount' };
+    }
+    return result;
   }
 }

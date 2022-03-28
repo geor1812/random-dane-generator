@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as config from '../ormconfig';
 import { AppController } from './app.controller';
-import { PersonController } from './person/person.controller';
 import { AppService } from './app.service';
-import { PostalCode } from './postal-code/postal-code.entity';
-import { PostalCodeModule } from "./postal-code/postal-code.module";
-import * as config from "../ormconfig";
-import { PersonService } from './person/person.service';
-
+import { PersonModule } from './person/person.module';
+import { PostalCode } from './person/postal-code.entity';
 
 @Module({
   imports: [
@@ -20,10 +17,12 @@ import { PersonService } from './person/person.service';
       database: config.default.schema,
       entities: [PostalCode],
       synchronize: true,
-      dropSchema: false
-    }), PostalCodeModule
+      dropSchema: false,
+      keepConnectionAlive: true,
+    }),
+    PersonModule,
   ],
-  controllers: [AppController, PersonController],
-  providers: [AppService, PersonService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
