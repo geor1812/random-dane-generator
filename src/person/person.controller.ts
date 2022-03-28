@@ -97,9 +97,9 @@ export class PersonController {
     @Query('amount') amount: number,
   ): Promise<IPerson | IPerson[]> {
     let result;
-    if (!amount) {
+    if (amount === undefined) {
       result = await this.personService.generatePerson();
-    } else if (amount >= 1 && amount <= 200) {
+    } else if (amount >= 1 && amount <= 100) {
       result = [];
       for (let i = 0; i < amount; i++) {
         const person = await this.personService.generatePerson();
