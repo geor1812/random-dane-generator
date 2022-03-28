@@ -34,6 +34,38 @@ beforeAll(async () => {
 //TEST SUITE FOR SIMPLE PERSON SERVICE UNIT TESTS
 describe('Person service unit tests', () => {
 
+  //RANDOM PHONE NUMBER
+  it('should return a random phone number that is a 8-char string', async () => {
+    const randomPhoneNum = service.generatePhone();
+    expect(randomPhoneNum).toBe(8);
+  });
+
+  it('should return a random phone number that is not null', () => {
+    const randomPhoneNum = service.generatePhone();
+    expect(randomPhoneNum).toBeDefined();
+  });
+
+  it('should generate a random phone number of type string', () => {
+    const randomPhoneNum = service.generatePhone();
+    expect(typeof randomPhoneNum).toEqual('string');
+  });
+
+  //RANDOM CPR NUMBER
+  it('should return a random CPR number that is a 10-char string', async () => {
+    const randomCPRNum = service.generateCpr();
+    expect(randomCPRNum).toBe(10);
+  });
+
+  it('should return a random CPR number that is not null', () => {
+    const randomCPRNum = service.generateCpr();
+    expect(randomCPRNum).toBeDefined();
+  });
+
+  it('should generate a random CPR number of type string', () => {
+    const randomCPRNum = service.generateCpr();
+    expect(typeof randomCPRNum).toEqual('string');
+  });
+
   //RANDOM STREET NAME TESTS
   it('should return a random street name that is not null', () => {
     const randomStreetName = service.generateStreetName();
