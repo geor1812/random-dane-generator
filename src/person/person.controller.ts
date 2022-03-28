@@ -96,27 +96,18 @@ export class PersonController {
   async getPeople(
     @Query('amount') amount: number,
   ): Promise<IPerson | IPerson[]> {
-    const people = [
-      {
-        name: 'Christina',
-        surname: 'McChrist',
-        gender: 'female',
-        cpr: '051299-8080',
-        birthday: '05-12-1999',
-        address: await this.personService.generateAddress(),
-        phone: '+4577339988',
-      },
-      {
-        name: 'John',
-        surname: 'Bobz',
-        gender: 'male',
-        cpr: '111191-8181',
-        birthday: '11-11-1991',
-        address: await this.personService.generateAddress(),
-        phone: '+4531339099',
-      },
-    ] as IPerson[];
-
-    return amount > 1 ? people : people[0];
+    let result;
+    if (!amount) {
+      result = await this.personService.generatePerson();
+    } else if (amount >= 1 && amount <= 200) {
+      result = [];
+      for (let i = 0; i < amount; i++) {
+        const person = await this.personService.generatePerson();
+        result.push(person);
+      }
+    } else {
+      result = { message: 'Invalid amount' };
+    }
+    return result;
   }
 }

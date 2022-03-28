@@ -20,15 +20,20 @@ export class PersonService {
   private streetAddressMaxNumber = 999;
 
   //function generate person
-  generateIPerson(IAddress): IPerson {
+  async generatePerson(): Promise<IPerson> {
+    const baseInfo = this.getPersonBaseInfo();
+    const cpr = this.generateCpr(baseInfo.gender);
+    const birthday = this.generateBirthday(cpr);
+    const phone = this.generatePhone();
+    const address = await this.generateAddress();
     return {
-      name: 'Moby',
-      surname: 'Dick',
-      gender: 'male',
-      cpr: '13113452',
-      phone: '32642665',
-      birthday: '121254',
-      address: IAddress,
+      name: baseInfo.name,
+      surname: baseInfo.surname,
+      gender: baseInfo.gender,
+      cpr,
+      phone,
+      birthday,
+      address,
     };
   }
 
