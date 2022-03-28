@@ -37,6 +37,16 @@ jobs:
       - run:
           name: Run ESLint
           command: npm run lint
+  test_e2e:
+    docker:
+      - image: cimg/node:16.14.2
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Run ESLint
+          command: npm run test:e2e
 
 workflows:
   Build: # This is the name of the workflow, feel free to change it to better match your workflow.
@@ -49,3 +59,6 @@ workflows:
   ESLint:
     jobs:
       - eslint
+  E2E:
+    jobs:
+      - test_e2e
