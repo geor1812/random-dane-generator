@@ -3,16 +3,10 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { InsertValuesMissingError, Repository } from 'typeorm';
 import { streetNameEnding } from './constants/street-name.constant';
 import { phoneNumberPrefix } from './constants/phone-number.constant';
-<<<<<<< HEAD
-import * as persons from '../assets/person-name.json';
-import { IAddress } from './person.interface';
-import { IPerson, Gender } from './person.interface';
-=======
 import { IAddress } from './person.interface';
 import { IPerson, Gender } from './person.interface';
 import { PostalCode } from './postal-code.entity';
 import * as data from '../assets/person-name.json';
->>>>>>> main
 
 @Injectable()
 export class PersonService {
@@ -26,31 +20,6 @@ export class PersonService {
   private streetAddressMaxNumber = 999;
 
   //function generate person
-<<<<<<< HEAD
-  generateIPerson( IAddress ): IPerson {
-    return {
-      name: 'Moby',
-      surname: 'Dick',
-      gender: 'male',
-      cpr: '13113452',
-      phone: '32642665',
-      birthday: '121254',
-      address: IAddress,
-    }
-  }
-
-  //generate name from json file
-    generateName(persons): string {
-      const person =
-        persons[Math.floor(Math.random() * persons.length)];
-      return person.name;
-    }
-
-  //generate Cpr where: days:00-28, months: 01-12 & years: 00-99
-  generateCpr(gender: Gender = 'female'): string {
-    let Cpr_1 = ''
-    let temp_1 = (Math.floor(Math.random() * 28) + 1);
-=======
   async generatePerson(): Promise<IPerson> {
     const baseInfo = this.getPersonBaseInfo();
     const cpr = this.generateCpr(baseInfo.gender);
@@ -86,12 +55,10 @@ export class PersonService {
   generateCpr(gender: Gender = 'female'): string {
     let Cpr_1 = '';
     let temp_1 = Math.floor(Math.random() * 28) + 1;
->>>>>>> main
     const zero = '0';
     if (temp_1 < 10) {
       Cpr_1 = temp_1.toString();
       Cpr_1 = zero.concat(Cpr_1);
-<<<<<<< HEAD
     } else {
       Cpr_1 = temp_1.toString();
     }
@@ -117,39 +84,13 @@ export class PersonService {
       return Cpr_3 += (Math.floor(Math.random() * 9999) * 2) + 1;
     } else {
       return Cpr_3 += Math.floor(Math.random() * 9999) * 2;
-=======
-    }
-    let Cpr_2 = '';
-    let temp_2 = Math.floor(Math.random() * (12 - 1) + 1);
-    if (temp_2 < 10) {
-      Cpr_2 = temp_2.toString();
-      Cpr_2 = zero.concat(Cpr_2);
-    }
-    let Cpr_3 = '';
-    let temp_3 = Math.floor(Math.random() * 99) + 1;
-    if (temp_3 < 10) {
-      Cpr_3 = temp_3.toString();
-      Cpr_3 = zero.concat(Cpr_3);
-    }
-    //last 4 digits: odd for male, even for female
-    if (gender === 'male') {
-      Cpr_3 += Math.floor(Math.random() * 9999) * 2 + 1;
-    } else {
-      return (Cpr_3 += Math.floor(Math.random() * 9999) * 2);
->>>>>>> main
     }
   }
 
   //generate birthday by removing the last 4 digits a cpr call
-<<<<<<< HEAD
-  generateBirthday(): string {
-    let Cpr = this.generateCpr();
-    let birthday = Cpr.substring(0, 6)
-=======
   generateBirthday(cpr: string = null): string {
     const Cpr = cpr ? cpr : this.generateCpr();
     let birthday = Cpr.substring(0, 6);
->>>>>>> main
     return birthday;
   }
 
@@ -157,11 +98,7 @@ export class PersonService {
   generatePhone(): string {
     const prefix =
       phoneNumberPrefix[Math.floor(Math.random() * phoneNumberPrefix.length)];
-<<<<<<< HEAD
     let ending = ''
-=======
-    let ending = '';
->>>>>>> main
     if (prefix.length == 1) {
       ending = (Math.floor(Math.random() * 9999999) + 1).toString();
     } else if (prefix.length == 2) {
@@ -173,8 +110,6 @@ export class PersonService {
     }
   }
 
-<<<<<<< HEAD
-=======
   findAll(): Promise<PostalCode[]> {
     return this.postalCodeRepository.find();
   }
@@ -197,17 +132,11 @@ export class PersonService {
     };
   }
 
->>>>>>> main
   /**
    * Generate an Address object.
    * @returns generated address.
    */
-<<<<<<< HEAD
-
-  generateAddress(): IAddress {
-=======
   async generateAddress(): Promise<IAddress> {
->>>>>>> main
     return {
       street: this.generateStreetName(),
       number: this.generateAddressNumber(),
