@@ -45,7 +45,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run:
-          name: Run ESLint
+          name: Run E2E tests
           command: npm run test:e2e
 
 workflows:
