@@ -30,6 +30,12 @@ describe('Person service', () => {
     service = module.get<PersonService>(PersonService);
   });
 
+  //RANDOM STREET NAME TESTS
+  it('should return a random street name that is not null', () => {
+    const randomStreetName = service.generateStreetName();
+    expect(randomStreetName).toBeDefined();
+  });
+
   it('should generate a random street name of type string', () => {
     const randomStreetName = service.generateStreetName();
     expect(typeof randomStreetName).toEqual('string');
@@ -41,15 +47,69 @@ describe('Person service', () => {
     expect(randomStreetName.length).toBeLessThanOrEqual(25);
   });
 
-  it('should call findRandom method which returns a random post code', async () => {
+  //RANDOM POSTAL CODE TESTS - DATABASE CONNECTION, INTEGRATION TESTS
+  it('should call findRandom method which returns a random post code which is not null', async () => {
+    const findData = await service.findRandom();
+    expect(findData).toBeDefined();
+  });
+
+  it('should call findRandom method which returns a random post code with according properties', async () => {
     const findData = await service.findRandom();
     expect(findData).toHaveProperty('code');
     expect(findData).toHaveProperty('town');
   });
 
-  it('should call findRandom method which returns a random post code', async () => {
+  it('should call findRandom method and check typeof properties', async () => {
     const findData = await service.findRandom();
-    expect(findData).toHaveProperty('code');
-    expect(findData).toHaveProperty('town');
+    expect(typeof (findData.code)).toEqual('string');
+    expect(typeof (findData.town)).toEqual('string');
   });
+
+  it('should call findRandom method and check if code is a 4-digit number', async () => {
+    const findData = await service.findRandom();
+    const codeNum = parseInt(findData.code);
+    expect(codeNum).toBeGreaterThanOrEqual(1000);
+    expect(codeNum).toBeLessThanOrEqual(9999);
+  });
+
+  //RANDOM ADDRESS NUMBERS TESTS
+  it('should generate a random address number which is not null', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    expect(randomAddressNum).toBeDefined();
+  });
+
+  it('should generate a random address number of type string', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    expect(typeof randomAddressNum).toEqual('string');
+  });
+
+  it('should generate a random address number which consists of a number between 1 and 999', () => {
+    const randomAddressNum = service.generateAddressNumber();
+    const numPart = parseInt(randomAddressNum.replace(/[^0-9]/g, ''));
+    expect(numPart).toBeGreaterThanOrEqual(1);
+    expect(numPart).toBeLessThanOrEqual(999);
+  });
+
+  //RANDOM FLOOR NUMBER GENERATION TESTS
+  it('should generate a random floor number which is not null', () => {
+    const randomFloor = service.generateFloorNumber();
+    expect(randomFloor).toBeDefined();
+  });
+
+  it('should generate a random floor number of type string', () => {
+    const randomFloor = service.generateFloorNumber();
+    expect(typeof (randomFloor)).toEqual('string');
+  });
+
+  //RANDOM DOOR NUMBER GENERATION TESTS
+  it('should generate a random door number which is not null', () => {
+    const randomDoorNum = service.generateDoorNumber();
+    expect(randomDoorNum).toBeDefined();
+  });
+
+  it('should generate a random door number of type string', () => {
+    const randomDoorNum = service.generateDoorNumber();
+    expect(typeof (randomDoorNum)).toEqual('string');
+  });
+
 });
